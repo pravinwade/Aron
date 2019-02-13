@@ -1,0 +1,24 @@
+<div class="modal-dialog">
+  <!-- Modal content-->
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title">Login to Continue</h4>
+    </div>
+    <div class="modal-body">
+      <div class="login-w3ls">
+        <form #frmlogin="ngForm" (ngSubmit)="SignIn()" id="signin" action="#" method="post">
+          <label>User Name </label>
+          <input type="text"  minlength="10" maxlength="50" placeholder="E-mail / Mobile Number" id="username" name="username" #username="ngModel" [(ngModel)]="uname" required="required">
+          <label>Password</label>
+          <input type="password" maxlength="15" placeholder="Password" id="password" name="password" #password="ngModel" [(ngModel)]="pwd" type="password" required="required">
+          <div class="w3ls-loginr">
+            <a href="#">Forgot password ?</a>
+          </div>
+          <div class="clearfix"> </div>
+          <input type="submit" name="submit" value="Login">
+          <div class="clearfix"> </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

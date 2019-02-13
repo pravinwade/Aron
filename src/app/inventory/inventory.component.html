@@ -1,0 +1,117 @@
+<div class="w3layouts-banner" id="home">
+  <div class="container">
+    <div class="logo col-md-12">
+      <form action="#" method="post">
+        <h1>Parts</h1>
+        <h3 style="color:red;">{{errorMsg}}</h3>
+        <div class="clearfix"></div>
+        <div class="table table-responsive col-lg-12">
+          <table id="purchaseorder" class="table table-responsive">
+            <thead>
+              <tr>
+                <th>Part Name</th>
+                <th>Part Description</th>
+                <th>Part Cost</th>
+                <th>Part Number</th>
+                <th>Part Quantity</th>
+                <th>Part Vendor</th>
+                <th></th>
+              </tr>
+
+              <tr>
+                <th><input type="text" id="partname" name="partname" maxlength="50" #partname="ngModel" [(ngModel)]="_partname"
+                    placeholder="Part Name" class="form-control"></th>
+                <th><input type="text" id="partdescription" maxlength="50" name="partdescription" #partdescription="ngModel"
+                    [(ngModel)]="partdesc" placeholder="Part Description" class="form-control"></th>
+                <th><input type="text" style="width:100px;" id="partcost" name="partcost" #partcost="ngModel"
+                    [(ngModel)]="_partcost" placeholder="Part Cost" class="form-control"></th>
+                <th><input type="text" style="width:100px;" maxlength="30" placeholder="Part Number" id="partnumber" name="partnumber"
+                    #porecdate="ngModel" [(ngModel)]="partno" class="form-control"></th>
+                <th><input type="text" style="width:100px;" placeholder="Part Quantity" id="partquantity"
+                    name="partquantity" #partquantity="ngModel" [(ngModel)]="partqty" class="form-control"></th>
+                <th><input type="text" style="width:100px;" maxlength="50" placeholder="Part Vendor" id="partvendor" name="partvendor"
+                    #partvendor="ngModel" [(ngModel)]="_partvendor" class="form-control"></th>
+                <th>
+                  <input type="submit" name="submit" class="btn btn-primary" value="Add" (click)="recordinsert()">
+                </th>
+              </tr>
+              <tr>
+                <td colspan="7">
+                  <ul *ngIf="pager.pages && pager.pages.length" class="pagination">
+                    <li [ngClass]="{disabled:pager.currentPage === 1}">
+                      <a (click)="setPage(1)">First</a>
+                    </li>
+                    <li [ngClass]="{disabled:pager.currentPage === 1}">
+                      <a (click)="setPage(pager.currentPage - 1)">Previous</a>
+                    </li>
+                    <li *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
+                      <a (click)="setPage(page)">{{page}}</a>
+                    </li>
+                    <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                      <a (click)="setPage(pager.currentPage + 1)">Next</a>
+                    </li>
+                    <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                      <a (click)="setPage(pager.totalPages)">Last</a>
+                    </li>
+                    <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                      <a (click)="setPage(pager.totalPages)">Last</a>
+                    </li>
+                  </ul>
+                </td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let parts of PartsDetails">
+                <td>
+                  <input type="hidden" name="hidpartid" id="hidpartid" #hidpartid value="{{parts.Part_Id}}" />
+                  <label for="" id="lblpartname_{{hidpartid.value}}">{{parts.Part_Name}}</label>
+                  <input type="text" style="display: none;" maxlength="50" id="partname_{{hidpartid.value}}" #partname
+                    placeholder="Parts Name" value="{{parts.Part_Name}}" class="form-control">
+                </td>
+                <td>
+                  <label for="" id="lblpartdescription_{{hidpartid.value}}"
+                    #lblpartdescription>{{parts.Part_Description}}</label>
+                  <input type="text" style="display: none;" maxlength="50" id="partdesc_{{hidpartid.value}}" #partdesc
+                    placeholder="Parts Description" value="{{parts.Part_Description}}" class="form-control">
+                </td>
+                <td>
+                  <label id="lblpartcost_{{hidpartid.value}}" for="">{{parts.Part_Cost}}</label>
+                  <input type="text" style="display: none; width:100px;" id="partcost_{{hidpartid.value}}" #partcost
+                    placeholder="Parts Cost" value="{{parts.Part_Cost}}" class="form-control">
+                </td>
+                <td>
+                  <label for="" id="lblpartnumber_{{hidpartid.value}}">{{parts.Part_Number}}</label>
+                  <input type="text" style="display: none; width:100px;" maxlength="30" id="partnumber_{{hidpartid.value}}" #porecdt
+                    placeholder="Parts Number" value="{{parts.Part_Number}}" class="form-control">
+                </td>
+                <td>
+                  <label for="" id="lblpartquantity_{{hidpartid.value}}">{{parts.Part_Quant}}</label>
+                  <input type="text" style="display: none; width:100px;" id="partquantity_{{hidpartid.value}}"
+                    #partquantity placeholder="Parts Quantity" value="{{parts.Part_Quant}}" class="form-control">
+                </td>
+                <td>
+                  <label for="" id="lblpartvendor_{{hidpartid.value}}">{{parts.Part_Vendor}}</label>
+                  <input type="text" style="display: none; width:100px;" maxlength="50" id="partvendor_{{hidpartid.value}}" #poactdt
+                    placeholder="Parts Vendor" value="{{parts.Part_Vendor}}" class="form-control">
+                </td>
+                <td>
+                  <div class="btn-group" id="divone_{{hidpartid.value}}">
+                    <input type="button" name="submit" (click)="partupdate(hidpartid.value, 'block', 'none')"
+                      class="btn btn-primary" value="Edit">
+                    <input type="button" name="submit" class="btn btn-danger" (click)="deleterecord(hidpartid.value)" value="Delete">
+                  </div>
+                  <div class="btn-group" id="divtwo_{{hidpartid.value}}" style="display:none;">
+                    <input type="button" name="submit" (click)="recordupdate(hidpartid.value, 'none', 'block')"
+                      class="btn btn-primary" value="Update">
+                    <input type="button" name="submit" (click)="partupdate(hidpartid.value, 'none', 'block')"
+                      class="btn btn-primary" value="Cancel">
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

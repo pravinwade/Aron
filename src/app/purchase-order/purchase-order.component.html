@@ -1,0 +1,136 @@
+<div class="w3layouts-banner" id="home">
+  <div class="container">
+    <div class="logo col-md-12">
+      <form action="#" method="post">
+        <h1>Purchase Order</h1>
+
+        <div class="clearfix"></div>
+        <div class="table table-responsive col-lg-12">
+          <table id="purchaseorder" class="table table-responsive">
+            <thead>
+              <tr>
+                <th>PO Number</th>
+                <th>PO Cost</th>
+                <th>PO Price</th>
+                <th>PO Rec Date</th>
+                <th>PO Est Ship Date</th>
+                <!-- <th>PO Act Ship Date</th> -->
+                <th></th>
+              </tr>
+              <tr>
+                <td colspan="6">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <select class="form-control" id="ddlFixtureId">
+                        <option value="0">Select Fixture Name</option>
+                        <option *ngFor="let c of POItemIdWithDetails" value="{{c.PO_Items_Id}}">{{c.Fixture_Name}}
+                        </option>
+                      </select>
+                    </div>
+                    <div class="col-md-6">
+                      <select class="form-control" id="ddlPartId">
+                        <option value="0">Select Part Name</option>
+                        <option *ngFor="let c of PartIdWithDetails" value="{{c.PO_Parts_Id}}">{{c.Part_Name}}</option>
+                      </select>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <th><input type="text" style="width:100px;" id="ponumber" name="ponumber" #ponumber="ngModel"
+                    [(ngModel)]="pono" placeholder="Po Number" class="form-control"></th>
+                <th><input type="text" style="width:100px;" id="pocost" name="pocost" #pocost="ngModel"
+                    [(ngModel)]="_pocost" placeholder="Po Cost" class="form-control"></th>
+                <th><input type="text" style="width:100px;" id="poprice" name="poprice" #poprice="ngModel"
+                    [(ngModel)]="_poprice" placeholder="Po Price" class="form-control"></th>
+                <th><input type="date" style="width:153px;" id="porecdate" name="porecdate" #porecdate="ngModel"
+                    [(ngModel)]="porecdt" class="form-control"></th>
+                <th><input type="date" style="width:153px;" id="poestshipdate" name="poestshipdate"
+                    #poestshipdate="ngModel" [(ngModel)]="poestshipdt" class="form-control"></th>
+                <!-- <th><input type="date" style="width:153px;" id="poactshipdate" name="poactshipdate"
+                    #poactshipdate="ngModel" [(ngModel)]="poactshipdt" class="form-control"></th> -->
+                <th><input type="submit" name="submit" class="btn" value="Add" (click)="poinsert()"></th>
+              </tr>
+              <!-- <tr><h3 style="color:red;">{{errorMsg}}</h3></tr> -->
+              <tr>
+                <td colspan="7">
+                  <ul *ngIf="pager.pages && pager.pages.length" class="pagination">
+                    <li [ngClass]="{disabled:pager.currentPage === 1}">
+                      <a (click)="setPage(1)">First</a>
+                    </li>
+                    <li [ngClass]="{disabled:pager.currentPage === 1}">
+                      <a (click)="setPage(pager.currentPage - 1)">Previous</a>
+                    </li>
+                    <li *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
+                      <a (click)="setPage(page)">{{page}}</a>
+                    </li>
+                    <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                      <a (click)="setPage(pager.currentPage + 1)">Next</a>
+                    </li>
+                    <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                      <a (click)="setPage(pager.totalPages)">Last</a>
+                    </li>
+                    <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                      <a (click)="setPage(pager.totalPages)">Last</a>
+                    </li>
+                  </ul>
+                </td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let po of PODetails">
+                <td>
+                  <input type="hidden" name="hidpoid" id="hidpoid" #hidpoid value="{{po.Purchase_Order_Id}}" />
+                  <input type="hidden" name="hidPOItemsId" id="hidPOItemsId" #hidPOItemsId value="{{po.PO_Parts_Id}}" />
+                  <label for="" id="lblponumber_{{hidpoid.value}}" #lblponumber>{{po.PO_Number}}</label>
+                  <input type="text" style="display: none; width:100px;" id="ponumber_{{hidpoid.value}}" #ponumber
+                    placeholder="Po Number" value="{{po.PO_Number}}" class="form-control">
+                </td>
+                <td>
+                  <label id="lblpocost_{{hidpoid.value}}" for="">{{po.PO_Cost}}</label>
+                  <input type="text" style="display: none; width:100px;" id="pocost_{{hidpoid.value}}" #pocost
+                    placeholder="Po Number" value="{{po.PO_Cost}}" class="form-control">
+                </td>
+                <td>
+                  <label for="" id="lblpoprice_{{hidpoid.value}}">{{po.PO_Price}}</label>
+                  <input type="text" style="display: none; width:100px;" id="poprice_{{hidpoid.value}}" #poprice
+                    placeholder="Po Number" value="{{po.PO_Price}}" class="form-control">
+                </td>
+                <td>
+                  <label for="" id="lblporecdt_{{hidpoid.value}}">{{po.PO_Rec_Date | yYYYMMDD}}</label>
+                  <input type="date" style="display: none; width:153px;" id="porecdt_{{hidpoid.value}}" #porecdt
+                    placeholder="Po Number" value="{{po.PO_Rec_Date | yYYYMMDD}}" class="form-control">
+                </td>
+                <td>
+                  <label for="" id="lblpoestdt_{{hidpoid.value}}">{{po.PO_Est_Ship_Date | yYYYMMDD}}</label>
+                  <input type="date" style="display: none; width:153px;" id="poestdt_{{hidpoid.value}}" #poestdt
+                    placeholder="Po Number" value="{{po.PO_Est_Ship_Date | yYYYMMDD}}" class="form-control">
+                </td>
+                <!-- <td>
+                  <label for="" id="lblpoactdt_{{hidpoid.value}}">{{po.PO_Act_Ship_Date | yYYYMMDD}}</label>
+                  <input type="date" style="display: none; width:153px;" id="poactdt_{{hidpoid.value}}"
+                    #poactdt placeholder="Po Number" value="{{po.PO_Act_Ship_Date | yYYYMMDD}}" class="form-control">
+                </td> -->
+                <td>
+                  <div class="btn-group" id="divone_{{hidpoid.value}}">
+                    <input type="button" name="submit" (click)="poupdate(hidpoid.value, 'block', 'none')"
+                      class="btn btn-primary" value="Edit">
+                    <input type="button" name="submit" class="btn btn-danger" (click)="deleterecord(hidpoid.value)"
+                      value="Delete">
+                  </div>
+                  <div class="btn-group" id="divtwo_{{hidpoid.value}}" style="display:none;">
+                    <input type="button" name="submit"
+                      (click)="recordupdate(hidpoid.value, ponumber.value, 'none', 'block')" class="btn btn-primary"
+                      value="Update">
+                    <input type="button" name="submit" (click)="poupdate(hidpoid.value, 'none', 'block')"
+                      class="btn btn-primary" value="Cancel">
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

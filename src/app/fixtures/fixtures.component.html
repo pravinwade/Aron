@@ -1,0 +1,89 @@
+<div class="w3layouts-banner" id="home">
+  <div class="container">
+    <div class="logo col-md-12">
+      <form action="#" method="POST">
+        <h1>Fixtures</h1>
+        <h3 style="color:red;">{{errorMsg}}</h3>
+        <div class="clearfix"></div>
+        <div class="table table-resposnsive col-lg-12">
+          <table id="purchaseorder" class="table table-resposnsive">
+            <thead>
+              <tr>
+                <th>Fixture Name</th>
+                <th>Fixture Cost</th>
+                <th>Fixture Pn</th>
+                <th><span></span></th>
+              </tr>
+              <tr>
+                <th><input type="text" id="fixturename" maxlength="40" name="fixturename" #fixturename="ngModel"
+                    [(ngModel)]="_fixturename" placeholder="Fixture Name" class="form-control"></th>
+                <th><input type="text" id="fixturescost" name="fixturescost" #fixturescost="ngModel"
+                    [(ngModel)]="_fixturescost" placeholder="Fixture Cost" class="form-control"></th>
+                <th><input type="text" id="fixturespn" name="fixturespn" #fixturespn="ngModel"
+                    [(ngModel)]="_fixturespn" maxlength="30" placeholder="Fixtures Pn" class="form-control"></th>
+                <th><input type="submit" name="submit" class="btn" value="Add" (click)="insertfixturedetails()"></th>
+              </tr>
+              <tr>
+                <td colspan="7">
+                  <ul *ngIf="pager.pages && pager.pages.length" class="pagination">
+                    <li [ngClass]="{disabled:pager.currentPage === 1}">
+                      <a (click)="setPage(1)">First</a>
+                    </li>
+                    <li [ngClass]="{disabled:pager.currentPage === 1}">
+                      <a (click)="setPage(pager.currentPage - 1)">Previous</a>
+                    </li>
+                    <li *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
+                      <a (click)="setPage(page)">{{page}}</a>
+                    </li>
+                    <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                      <a (click)="setPage(pager.currentPage + 1)">Next</a>
+                    </li>
+                    <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                      <a (click)="setPage(pager.totalPages)">Last</a>
+                    </li>
+                    <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                      <a (click)="setPage(pager.totalPages)">Last</a>
+                    </li>
+                  </ul>
+                </td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let fixtures of FixturesDetails">
+                <td>
+                  <input type="hidden" name="hidfixturesid" id="hidfixturesid" #hidfixturesid value="{{fixtures.Fixture_Id}}" />
+                  <label for="" id="lblfixturename_{{hidfixturesid.value}}" #lblfixturename>{{fixtures.Fixture_Name}}</label>
+                  <input type="text" style="display: none;" maxlength="40" id="fixturename_{{hidfixturesid.value}}" #fixturename
+                    placeholder="Fixture Name" value="{{fixtures.Fixture_Name}}" class="form-control">
+                </td>
+                <td>
+                  <label id="lblfixturescost_{{hidfixturesid.value}}" for="">{{fixtures.Fixture_Cost}}</label>
+                  <input type="text" style="display: none;" id="fixturescost_{{hidfixturesid.value}}" #fixturescost
+                    placeholder="Fixture Cost" value="{{fixtures.Fixture_Cost}}" class="form-control">
+                </td>
+                <td>
+                  <label for="" id="lblfixturespn_{{hidfixturesid.value}}">{{fixtures.Fixture_Pn}}</label>
+                  <input type="text" style="display: none;" id="fixturespn_{{hidfixturesid.value}}" #fixturespn
+                    placeholder="fixtures Pn" maxlength="30" value="{{fixtures.Fixture_Pn}}" class="form-control">
+                </td>
+                <td>
+                  <div class="btn-group" id="divone_{{hidfixturesid.value}}">
+                    <input type="button" name="submit" (click)="fixturesupdate(hidfixturesid.value, 'block', 'none')"
+                      class="btn btn-primary" value="Edit">
+                    <input type="button" name="submit" class="btn btn-danger" (click)="deleterecord(hidfixturesid.value)" value="Delete">
+                  </div>
+                  <div class="btn-group" id="divtwo_{{hidfixturesid.value}}" style="display:none;">
+                    <input type="button" name="submit" (click)="recordupdate(hidfixturesid.value, 'none', 'block')"
+                      class="btn btn-primary" value="Update">
+                      <input type="button" name="submit" (click)="fixturesupdate(hidfixturesid.value, 'none', 'block')"
+                      class="btn btn-primary" value="Cancel">
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
